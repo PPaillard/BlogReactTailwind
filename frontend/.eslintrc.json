@@ -17,6 +17,8 @@
   },
   "plugins": ["react", "import"],
   "rules": {
+    "react/function-component-definition":0,
+    "prettier/prettier":0,
     "no-console": "off",
     "no-restricted-syntax": [
       "error",
