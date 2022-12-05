@@ -9,6 +9,7 @@ export const DarkModeContextProvider = ({ children }) => {
   const toggleDarkMode = () => setDarkMode((prev) => !prev);
 
   return (
+    // eslint-disable-next-line react/jsx-no-constructed-context-values
     <DarkModeContext.Provider value={{ darkMode, toggleDarkMode }}>
       {children}
     </DarkModeContext.Provider>

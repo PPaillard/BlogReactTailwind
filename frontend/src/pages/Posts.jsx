@@ -1,7 +1,6 @@
 import React from "react";
 import { useDarkModeContext } from "../contexts/DarkmodeContext";
-
-const avatarPierre = require("../assets/img/avatarPierre.jpg");
+import avatarPierre from "../assets/img/avatarPierre.jpg";
 
 const Posts = () => {
   const { darkMode } = useDarkModeContext();
