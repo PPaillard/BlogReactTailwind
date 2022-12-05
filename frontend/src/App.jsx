@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import Login from "./pages/Login";
 import Posts from "./pages/Posts";
 import Contact from "./pages/Contact";
 import Header from "./components/Header";
@@ -9,11 +10,12 @@ import { useDarkModeContext } from "./contexts/DarkmodeContext";
 function App() {
   const { darkMode } = useDarkModeContext();
   return (
-    <div className={`${darkMode === true ? "dark" : ""}`}>
+    <div className={`h-full ${darkMode === true ? "dark" : ""}`}>
       <Header />
       <Routes>
         <Route path="/" element={<Posts />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </div>
   );
