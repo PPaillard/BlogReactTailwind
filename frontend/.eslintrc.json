@@ -17,8 +17,6 @@
   },
   "plugins": ["react", "import"],
   "rules": {
-    "react/function-component-definition":0,
-    "prettier/prettier":0,
     "no-console": "off",
     "no-restricted-syntax": [
       "error",
@@ -35,7 +33,11 @@
       {
         "assert": "either"
       }
-    ]
+    ],
+    "react/prop-types":0,
+    "react/function-component-definition":0,
+    "prettier/prettier":0
+
   },
   "settings": {
     "import/resolver": {
