@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useDarkModeContext } from "../contexts/DarkmodeContext";
 
 const Header = () => {
@@ -11,11 +11,11 @@ const Header = () => {
   return (
     <nav className="bg-white border-gray-200 px-2 sm:px-10 py-2.5 dark:bg-gray-900">
       <div className="container flex flex-wrap items-center justify-between mx-auto">
-        <a href="http://localhost:3000" className="flex items-center">
+        <Link to="/" className="flex items-center">
           <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
             Blog React
           </span>
-        </a>
+        </Link>
         <button
           data-collapse-toggle="navbar-default"
           type="button"
