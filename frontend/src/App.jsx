@@ -3,6 +3,8 @@ import Login from "./pages/Login";
 import Posts from "./pages/Posts";
 import Contact from "./pages/Contact";
 import Header from "./components/Header";
+import Register from "./pages/Register";
+import Terms from "./pages/Terms";
 
 import "./styles/App.css";
 import { useDarkModeContext } from "./contexts/DarkmodeContext";
@@ -16,6 +18,8 @@ function App() {
         <Route path="/" element={<Posts />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/terms" element={<Terms />} />
       </Routes>
     </div>
   );
