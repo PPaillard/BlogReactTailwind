@@ -12,7 +12,7 @@ import { useDarkModeContext } from "./contexts/DarkmodeContext";
 function App() {
   const { darkMode } = useDarkModeContext();
   return (
-    <div className={`h-full ${darkMode === true ? "dark" : ""}`}>
+    <div className={`min-h-screen ${darkMode === true ? "dark" : ""}`}>
       <Header />
       <Routes>
         <Route path="/" element={<Posts />} />

@@ -2,12 +2,24 @@ const express = require("express");
 
 const router = express.Router();
 
-const itemControllers = require("./controllers/itemControllers");
+const { hashPassword, verifyPassword } = require("./services/auth");
+const {
+  getUserByEmailMiddleWare,
+  register,
+} = require("./controllers/authControllers");
 
-router.get("/items", itemControllers.browse);
-router.get("/items/:id", itemControllers.read);
-router.put("/items/:id", itemControllers.edit);
-router.post("/items", itemControllers.add);
-router.delete("/items/:id", itemControllers.destroy);
+// Public routes
+// Auth
+router.post("/api/register", hashPassword, register);
+router.post("/api/login", getUserByEmailMiddleWare, verifyPassword);
+
+// Private routes
+const itemControllers = require("./controllers/articlesControllers");
+
+router.get("/api/items", itemControllers.browse);
+router.get("/api/items/:id", itemControllers.read);
+router.put("/api/items/:id", itemControllers.edit);
+router.post("/api/items", itemControllers.add);
+router.delete("/api/items/:id", itemControllers.destroy);
 
 module.exports = router;
