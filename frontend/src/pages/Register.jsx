@@ -1,9 +1,17 @@
-import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import AuthAPI from "../services/AuthAPI";
 
 const Register = () => {
-  const [userInfos, setUserInfos] = useState();
+  const [userInfos, setUserInfos] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    terms: false,
+  });
+  const navigate = useNavigate();
 
   const validateForm = () => {
     return true;
@@ -11,14 +19,16 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateForm) {
-      axios
-        .post(`${import.meta.env.VITE_BACKEND_URL}/register`, userInfos)
-        .then((response) => {
-          console.warn("Retour AuthAPI", response);
-        });
+    if (userInfos.terms && validateForm) {
+      try {
+        await AuthAPI.register(userInfos);
+        navigate("/login");
+      } catch (error) {
+        if (error.response?.status === 409) console.error("Duplicate");
+        else console.warn("Internal");
+      }
     } else {
-      console.warn("Validate Form");
+      console.warn("Unvalid form");
     }
   };
 
@@ -26,6 +36,13 @@ const Register = () => {
     setUserInfos({
       ...userInfos,
       [e.target.name]: e.target.value,
+    });
+  };
+
+  const toggleTerms = () => {
+    setUserInfos({
+      ...userInfos,
+      terms: !userInfos.terms,
     });
   };
 
@@ -114,9 +131,9 @@ const Register = () => {
                   Confirmer votre mot de passe
                 </label>
                 <input
-                  type="confirm-password"
-                  name="confirm-password"
-                  id="confirm-password"
+                  type="password"
+                  name="confirmPassword"
+                  id="confirmPassword"
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required=""
@@ -127,10 +144,13 @@ const Register = () => {
                 <div className="flex items-center h-5">
                   <input
                     id="terms"
+                    name="terms"
                     aria-describedby="terms"
+                    checked={userInfos.terms}
                     type="checkbox"
                     className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
                     required=""
+                    onChange={toggleTerms}
                   />
                 </div>
                 <div className="ml-3 text-sm">

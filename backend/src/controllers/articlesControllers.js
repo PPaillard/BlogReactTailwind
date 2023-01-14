@@ -1,10 +1,10 @@
 const models = require("../models");
 
 const browse = (req, res) => {
-  models.item
+  models.article
     .findAll()
-    .then(([rows]) => {
-      res.send(rows);
+    .then(([articles]) => {
+      res.send(articles);
     })
     .catch((err) => {
       console.error(err);
@@ -13,13 +13,13 @@ const browse = (req, res) => {
 };
 
 const read = (req, res) => {
-  models.item
+  models.article
     .find(req.params.id)
-    .then(([rows]) => {
-      if (rows[0] == null) {
+    .then(([articles]) => {
+      if (articles[0] == null) {
         res.sendStatus(404);
       } else {
-        res.send(rows[0]);
+        res.send(articles[0]);
       }
     })
     .catch((err) => {
@@ -29,14 +29,14 @@ const read = (req, res) => {
 };
 
 const edit = (req, res) => {
-  const item = req.body;
+  const article = req.body;
 
   // TODO validations (length, format...)
 
-  item.id = parseInt(req.params.id, 10);
+  article.id = parseInt(req.params.id, 10);
 
-  models.item
-    .update(item)
+  models.article
+    .update(article)
     .then(([result]) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404);
@@ -51,14 +51,14 @@ const edit = (req, res) => {
 };
 
 const add = (req, res) => {
-  const item = req.body;
+  const article = req.body;
 
   // TODO validations (length, format...)
 
-  models.item
-    .insert(item)
+  models.article
+    .insert(article)
     .then(([result]) => {
-      res.location(`/items/${result.insertId}`).sendStatus(201);
+      res.location(`/articles/${result.insertId}`).sendStatus(201);
     })
     .catch((err) => {
       console.error(err);
@@ -67,7 +67,7 @@ const add = (req, res) => {
 };
 
 const destroy = (req, res) => {
-  models.item
+  models.article
     .delete(req.params.id)
     .then(([result]) => {
       if (result.affectedRows === 0) {

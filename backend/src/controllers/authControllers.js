@@ -28,10 +28,11 @@ const register = (req, res) => {
     .insert(user)
     .then(([result]) => {
       console.warn("Result from register request", result);
-      if (result.insertId) res.sendStatus(201);
+      if (result.affectedRows) res.sendStatus(201);
       else res.sendStatus(400);
     })
     .catch((error) => {
+      if (error.errno === 1062) res.sendStatus(409);
       console.error(error);
       res.sendStatus(500);
     });

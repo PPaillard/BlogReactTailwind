@@ -14,12 +14,12 @@ router.post("/api/register", hashPassword, register);
 router.post("/api/login", getUserByEmailMiddleWare, verifyPassword);
 
 // Private routes
-const itemControllers = require("./controllers/articlesControllers");
+const articlesControllers = require("./controllers/articlesControllers");
 
-router.get("/api/items", itemControllers.browse);
-router.get("/api/items/:id", itemControllers.read);
-router.put("/api/items/:id", itemControllers.edit);
-router.post("/api/items", itemControllers.add);
-router.delete("/api/items/:id", itemControllers.destroy);
+router.get("/api/articles", articlesControllers.browse);
+router.get("/api/articles/:id", articlesControllers.read);
+router.put("/api/articles/:id", articlesControllers.edit);
+router.post("/api/articles", articlesControllers.add);
+router.delete("/api/articles/:id", articlesControllers.destroy);
 
 module.exports = router;
