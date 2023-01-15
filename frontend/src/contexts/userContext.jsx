@@ -1,26 +1,32 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect } from "react";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 import useLocalStorage from "../hooks/useLocalStorage";
 
-const CurrentUserContext = createContext();
+const UserContext = createContext();
 
-export default CurrentUserContext;
+export default UserContext;
 
-export function CurrentUserContextProvider({ children }) {
+export function UserContextProvider({ children }) {
   // on utilise un hook personnalisé
   const [user, setUser] = useLocalStorage("user", {});
   const [token, setToken] = useLocalStorage("token", "");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user.id) navigate("/");
+  }, [user.id]);
 
   return (
     // eslint-disable-next-line react/jsx-no-constructed-context-values
-    <CurrentUserContext.Provider value={{ user, setUser, token, setToken }}>
+    <UserContext.Provider value={{ user, setUser, token, setToken }}>
       {children}
-    </CurrentUserContext.Provider>
+    </UserContext.Provider>
   );
 }
 
-CurrentUserContextProvider.propTypes = {
+UserContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export const useCurrentUserContext = () => useContext(CurrentUserContext);
+export const useUserContext = () => useContext(UserContext);

@@ -1,5 +1,5 @@
-import Article from "@components/Article";
 import React, { useEffect, useState } from "react";
+import Article from "../components/Article";
 import ArticlesService from "../services/ArticlesService";
 
 const Posts = () => {

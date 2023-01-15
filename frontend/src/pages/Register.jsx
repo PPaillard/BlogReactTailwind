@@ -1,6 +1,8 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import AuthAPI from "../services/AuthAPI";
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const Register = () => {
   const [userInfos, setUserInfos] = useState({
@@ -11,24 +13,28 @@ const Register = () => {
     confirmPassword: "",
     terms: false,
   });
+  const [msg, setMsg] = useState("");
   const navigate = useNavigate();
 
   const validateForm = () => {
     return true;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (userInfos.terms && validateForm) {
-      try {
-        await AuthAPI.register(userInfos);
-        navigate("/login");
-      } catch (error) {
-        if (error.response?.status === 409) console.error("Duplicate");
-        else console.warn("Internal");
-      }
+      axios
+        .post(`${BACKEND_URL}/register`, userInfos)
+        .then(() => {
+          setMsg("Enregistrement okay.");
+          navigate("/login");
+        })
+        .catch((error) => {
+          if (error.response?.status === 409) setMsg("Duplicate email");
+          else setMsg("Try again later.");
+        });
     } else {
-      console.warn("Unvalid form");
+      setMsg("Unvalid form");
     }
   };
 
@@ -54,40 +60,62 @@ const Register = () => {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Créer un compte
             </h1>
-            <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
-              <div>
-                <label
-                  htmlFor="firstname"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Prénom
-                </label>
-                <input
-                  type="text"
-                  name="firstname"
-                  id="firstname"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="Ex : Pierre"
-                  required=""
-                  onChange={handleChange}
-                />
+            {msg ? (
+              <div
+                className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+                role="alert"
+              >
+                <span className="block sm:inline">{msg}</span>
+                <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
+                  <svg
+                    className="fill-current h-6 w-6 text-red-500"
+                    role="button"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    onClick={() => setMsg("")}
+                  >
+                    <title>Close</title>
+                    <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                  </svg>
+                </span>
               </div>
-              <div>
-                <label
-                  htmlFor="lastname"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Nom
-                </label>
-                <input
-                  type="text"
-                  name="lastname"
-                  id="lastname"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="Ex : Dupont"
-                  required=""
-                  onChange={handleChange}
-                />
+            ) : (
+              ""
+            )}
+            <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
+              <div className="grid gap-6 mb-6 md:grid-cols-2">
+                <div>
+                  <label
+                    htmlFor="firstname"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Prénom
+                  </label>
+                  <input
+                    type="text"
+                    id="firstname"
+                    name="firstname"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Ex : Therese"
+                    required
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="lastname"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Nom
+                  </label>
+                  <input
+                    type="text"
+                    id="lastname"
+                    name="lastname"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Ex : Plendissante"
+                    required
+                  />
+                </div>
               </div>
               <div>
                 <label

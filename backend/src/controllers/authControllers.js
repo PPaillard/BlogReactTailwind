@@ -32,9 +32,9 @@ const register = (req, res) => {
       else res.sendStatus(400);
     })
     .catch((error) => {
-      if (error.errno === 1062) res.sendStatus(409);
       console.error(error);
-      res.sendStatus(500);
+      if (error.errno === 1062) res.sendStatus(409);
+      else res.sendStatus(500);
     });
 };
 

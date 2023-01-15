@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { useUserContext } from "../contexts/userContext";
 import { useDarkModeContext } from "../contexts/DarkmodeContext";
 import darkModeImg from "../assets/img/darkMode.svg";
 import lightModeImg from "../assets/img/lightMode.svg";
@@ -9,6 +10,7 @@ const Header = () => {
   const toggleHidden = () => setIsHidden((prev) => !prev);
 
   const { darkMode, toggleDarkMode } = useDarkModeContext();
+  const { user } = useUserContext();
 
   return (
     <nav className="bg-white border-gray-200 px-2 sm:px-10 py-2.5 dark:bg-gray-900">
@@ -63,22 +65,36 @@ const Header = () => {
                 Contact
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="/login"
-                className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-              >
-                Login
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/register"
-                className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-              >
-                Register
-              </NavLink>
-            </li>
+            {user?.id ? (
+              <li>
+                <NavLink
+                  to="/profile"
+                  className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                >
+                  Profil
+                </NavLink>
+              </li>
+            ) : (
+              <>
+                <li>
+                  <NavLink
+                    to="/login"
+                    className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                  >
+                    Login
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/register"
+                    className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                  >
+                    Register
+                  </NavLink>
+                </li>
+              </>
+            )}
+
             <li>
               <button
                 type="button"

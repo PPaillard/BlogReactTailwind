@@ -8,10 +8,6 @@ const setAxiosToken = (token) => {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 
-function register(user) {
-  return axios.post(`${BACKEND_URL}/register`, user);
-}
-
 const authenticate = (user) => {
   console.warn("Appel en cours");
   return axios
@@ -40,7 +36,6 @@ const logout = () => {
 };
 
 export default {
-  register,
   authenticate,
   isAuthenticated,
   logout,

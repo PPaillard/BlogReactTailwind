@@ -2,7 +2,11 @@ const express = require("express");
 
 const router = express.Router();
 
-const { hashPassword, verifyPassword } = require("./services/auth");
+const {
+  hashPassword,
+  verifyPassword,
+  verifyToken,
+} = require("./services/auth");
 const {
   getUserByEmailMiddleWare,
   register,
@@ -14,6 +18,10 @@ router.post("/api/register", hashPassword, register);
 router.post("/api/login", getUserByEmailMiddleWare, verifyPassword);
 
 // Private routes
+const usersControllers = require("./controllers/usersControllers");
+
+router.get("/api/profile", verifyToken, usersControllers.getMyProfile);
+
 const articlesControllers = require("./controllers/articlesControllers");
 
 router.get("/api/articles", articlesControllers.browse);

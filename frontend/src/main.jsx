@@ -4,18 +4,18 @@ import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
 import { DarkModeContextProvider } from "./contexts/DarkmodeContext";
-import { CurrentUserContextProvider } from "./contexts/userContext";
+import { UserContextProvider } from "./contexts/userContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
-    <DarkModeContextProvider>
-      <CurrentUserContextProvider>
-        <BrowserRouter>
+    <BrowserRouter>
+      <DarkModeContextProvider>
+        <UserContextProvider>
           <App />
-        </BrowserRouter>
-      </CurrentUserContextProvider>
-    </DarkModeContextProvider>
+        </UserContextProvider>
+      </DarkModeContextProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
