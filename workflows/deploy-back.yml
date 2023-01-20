@@ -2,7 +2,7 @@ name: deploy-back
 
 on:
   push:
-    branches: [dev]
+    branches: [main]
 
 jobs:
   # This workflow contains a single job called "build"
@@ -24,4 +24,4 @@ jobs:
         run: npm install -g caprover
 
       - name: Caprover Deploy
-        run: caprover deploy -h "${{ secrets.CAPROVER_SERVER }}" -p '${{ secrets.CAPROVER_PASSWORD }}' -b 'dev' -a "${{ secrets.CAPROVER_BACK_APPNAME }}"
+        run: caprover deploy -h "${{ secrets.CAPROVER_SERVER }}" -p '${{ secrets.CAPROVER_PASSWORD }}' -b 'main' -a "${{ secrets.CAPROVER_BACK_APPNAME }}"
