@@ -11,7 +11,7 @@ CREATE TABLE user (
 )
 ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
-INSERT INTO USER (firstname, lastname, email, hashedPassword) 
+INSERT INTO user (firstname, lastname, email, hashedPassword) 
 VALUES ("Pierre","Paillard","pierre@paillard",	"$argon2id$v=19$m=65536,t=5,p=1$V5L+KKXu/V3JCdBNRqU36A$nKhSGW3KT5rwwUeGPJjz6ipghwIy2uTvB0g3rqYRc6g");
 
 
