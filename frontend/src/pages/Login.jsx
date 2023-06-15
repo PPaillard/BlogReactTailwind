@@ -6,7 +6,7 @@ import { useUserContext } from "../contexts/userContext";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const Login = () => {
-  const { setUser, setToken } = useUserContext();
+  const { login } = useUserContext();
   const [msg, setMsg] = useState("");
   const [userInfos, setUserInfos] = useState({
     email: "",
@@ -25,9 +25,8 @@ const Login = () => {
       axios
         .post(`${BACKEND_URL}/login`, userInfos)
         .then((response) => {
-          axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
-          setUser(response.data.user);
-          setToken(response.data.token);
+          // axios token?
+          login(response.data.user, response.data.token);
           navigate("/");
         })
         .catch((error) => {
@@ -54,7 +53,7 @@ const Login = () => {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Connectez vous à votre compte
             </h1>
-            {msg ? (
+            {msg && (
               <div
                 className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
                 role="alert"
@@ -73,8 +72,6 @@ const Login = () => {
                   </svg>
                 </span>
               </div>
-            ) : (
-              ""
             )}
             <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
               <div>

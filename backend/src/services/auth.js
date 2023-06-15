@@ -3,17 +3,10 @@ const jwt = require("jsonwebtoken");
 
 const { JWT_SECRET, JWT_TIMING } = process.env;
 
-const hashingOptions = {
-  type: argon2.argon2id,
-  memoryCost: 2 ** 16,
-  timeCost: 5,
-  parallelism: 1,
-};
-
 const hashPassword = (req, res, next) => {
   // hash the password using argon2 then call next()
   argon2
-    .hash(req.body.password, hashingOptions)
+    .hash(req.body.password)
     .then((hashedPassword) => {
       req.body.hashedPassword = hashedPassword;
       // on supprime le mot de passe en clair pour ne laisser que le mot de passe hashé.
@@ -32,7 +25,7 @@ const verifyPassword = (req, res) => {
   // On verifie si le mot de passe en clair reçu dans req.body.password, une fois hashé, correspond
   // au mot de passe hashé stocké dans la BDD pour le user.
   argon2
-    .verify(req.user.hashedPassword, req.body.password, hashingOptions)
+    .verify(req.user.hashedPassword, req.body.password)
     .then((isVerified) => {
       // si la comparaison est positive, l'utilisateur est validé (email + password)
       if (isVerified) {

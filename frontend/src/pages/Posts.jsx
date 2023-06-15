@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
-import Article from "../components/Article";
+import PostShort from "../components/PostShort";
 import ArticlesService from "../services/ArticlesService";
 
 const Posts = () => {
-  const [articles, setArticles] = useState([]);
+  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     async function fetch() {
       try {
-        const response = await ArticlesService.getArticles();
-        console.warn("Get articles : ", response);
-        setArticles(response.data);
+        const response = await ArticlesService.getPosts();
+        setPosts(response.data);
       } catch (error) {
         console.error("Internal error");
       }
@@ -34,8 +33,8 @@ const Posts = () => {
           </p>
         </div>
         <div className="grid gap-8 lg:grid-cols-2">
-          {articles.map((article) => (
-            <Article key={article.id} article={article} />
+          {posts.map((post) => (
+            <PostShort key={post.id} post={post} />
           ))}
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect } from "react";
+import { createContext, useContext, useEffect, useMemo } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import useLocalStorage from "../hooks/useLocalStorage";
@@ -17,12 +17,26 @@ export function UserContextProvider({ children }) {
     if (!user.id) navigate("/");
   }, [user.id]);
 
-  return (
-    // eslint-disable-next-line react/jsx-no-constructed-context-values
-    <UserContext.Provider value={{ user, setUser, token, setToken }}>
-      {children}
-    </UserContext.Provider>
-  );
+  const logout = () => {
+    setUser({});
+    setToken("");
+  };
+
+  const login = (_user, _token) => {
+    setToken(_token);
+    setUser(_user);
+  };
+
+  const memo = useMemo(() => {
+    return {
+      user,
+      token,
+      logout,
+      login,
+    };
+  }, [user, token]);
+
+  return <UserContext.Provider value={memo}>{children}</UserContext.Provider>;
 }
 
 UserContextProvider.propTypes = {

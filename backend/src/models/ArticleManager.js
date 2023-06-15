@@ -6,9 +6,11 @@ class ArticleManager extends AbstractManager {
   }
 
   find(id) {
-    return this.connection.query(`select * from  ${this.table} where id = ?`, [
-      id,
-    ]);
+    return this.connection.query(
+      `select ${this.table}.*, category.title as category_title  from  ${this.table} 
+    JOIN category ON category.id = ${this.table}.category_id where ${this.table}.id = ?`,
+      [id]
+    );
   }
 
   // Override

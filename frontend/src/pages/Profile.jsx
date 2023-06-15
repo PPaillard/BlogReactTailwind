@@ -1,15 +1,12 @@
 import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useUserContext } from "../contexts/userContext";
 
 const Profile = () => {
-  const { user, setUser, setToken } = useUserContext();
-
-  const handleLogout = () => {
-    setUser({});
-    setToken("");
-  };
-  return user.id ? (
+  const { user, logout } = useUserContext();
+  const navigate = useNavigate();
+  if (!user?.id) return navigate("/login");
+  return (
     <div className="lg:flex">
       <aside
         id="sidebar"
@@ -55,7 +52,7 @@ const Profile = () => {
                   <li>
                     <button
                       type="button"
-                      onClick={handleLogout}
+                      onClick={logout}
                       data-sidebar-item=""
                       className="py-2 transition-colors duration-200 relative flex items-center flex-wrap hover:text-gray-900 text-gray-500 dark:text-gray-400 dark:hover:text-white "
                     >
@@ -70,8 +67,6 @@ const Profile = () => {
       </aside>
       <Outlet />
     </div>
-  ) : (
-    ""
   );
 };
 
