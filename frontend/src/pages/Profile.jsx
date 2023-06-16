@@ -1,11 +1,9 @@
 import React from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { useUserContext } from "../contexts/userContext";
 
 const Profile = () => {
-  const { user, logout } = useUserContext();
-  const navigate = useNavigate();
-  if (!user?.id) return navigate("/login");
+  const { logout } = useUserContext();
   return (
     <div className="lg:flex">
       <aside

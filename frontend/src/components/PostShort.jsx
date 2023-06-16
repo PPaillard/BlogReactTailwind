@@ -33,8 +33,8 @@ const PostDetails = ({ post }) => {
             {post.firstname} {post.lastname}
           </span>
         </div>
-        <a
-          href="sdsd"
+        <Link
+          to={`/posts/${post.id}`}
           className="inline-flex items-center font-medium text-primary-600 dark:text-primary-500 hover:underline"
         >
           Voir plus
@@ -50,7 +50,7 @@ const PostDetails = ({ post }) => {
               clipRule="evenodd"
             />
           </svg>
-        </a>
+        </Link>
       </div>
     </article>
   );

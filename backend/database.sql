@@ -39,6 +39,6 @@ ENGINE=InnoDB DEFAULT CHARSET = utf8;
 
 INSERT INTO article (title, content, created_at, user_id, category_id) 
 VALUES ("Comment déployer rapidement un site web ?", "Ici, je vais vous montrer comment deployer un site web sur Heroku avec un stack React / Express & MySQL. Nous n'utiliserons que de l'hebergement gratuit.", "2023-01-14 22:22:42", 1, 1),
-("Mon premier blog avec React !", "Mais ! C'est vraiment incroyable de developper un blog ! Et encore plus en React ! Et encore plus avec Express ! Et si on rajoute une couche MySQL, la c'est vraiment TOP MOUMOUTE ! Alors hop hop, on regarde ça.", "2022-12-20 12:00:00", 1, 2);
+("Mon premier blog avec React !", "Mais ! C'est vraiment incroyable de developper un blog ! Et encore plus en React ! Et encore plus avec Express ! Et si on rajoute une couche MySQL, la c'est vraiment TOP MOUMOUTE ! Alors hop hop, on regarde ça.", "2022-11-20 12:00:00", 1, 2);
 
 SET foreign_key_checks = 1;
