@@ -23,7 +23,7 @@ const Login = () => {
     e.preventDefault();
     if (validateForm) {
       axios
-        .post(`${BACKEND_URL}/login`, userInfos)
+        .post(`${BACKEND_URL}/login`, userInfos, { userCredentials: true })
         .then(({ data: user }) => {
           login(user);
           navigate("/");

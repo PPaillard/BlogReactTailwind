@@ -8,7 +8,7 @@ const ProfileInfos = () => {
 
   useEffect(() => {
     axios
-      .get(`${BACKEND_URL}/profile`)
+      .get(`${BACKEND_URL}/profile`, { withCredentials: true })
       .then((response) => {
         setUser(response.data);
       })

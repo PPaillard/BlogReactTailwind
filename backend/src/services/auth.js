@@ -58,7 +58,7 @@ const verifyPassword = (req, res) => {
 const verifyToken = (req, res, next) => {
   try {
     const token = req.cookies.access_token;
-    console.error(token);
+
     if (!token) return res.sendStatus(403);
 
     // on place le contenu du token (payloads dans la propriété payloads de la requête)
