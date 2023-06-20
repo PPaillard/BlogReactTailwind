@@ -1,6 +1,6 @@
 const models = require("../models");
 
-const getMyProfile = (req, res) => {
+const profile = (req, res) => {
   const id = req.payloads.sub;
   models.user
     .find(id)
@@ -100,7 +100,7 @@ const destroy = (req, res) => {
 };
 
 module.exports = {
-  getMyProfile,
+  profile,
   browse,
   read,
   edit,

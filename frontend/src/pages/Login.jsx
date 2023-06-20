@@ -19,14 +19,13 @@ const Login = () => {
     return true;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm) {
       axios
         .post(`${BACKEND_URL}/login`, userInfos)
-        .then((response) => {
-          // axios token?
-          login(response.data.user, response.data.token);
+        .then(({ data: user }) => {
+          login(user);
           navigate("/");
         })
         .catch((error) => {

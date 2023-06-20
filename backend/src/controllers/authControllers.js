@@ -12,6 +12,7 @@ const getUserByEmailMiddleWare = (req, res, next) => {
         next();
       } else {
         // If user with this mail doesnt exist
+        console.warn("Mail doesnt exist");
         res.sendStatus(401);
       }
     })

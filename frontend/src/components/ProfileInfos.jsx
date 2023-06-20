@@ -1,25 +1,18 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import AuthAPI from "../services/AuthAPI";
-import { useUserContext } from "../contexts/userContext";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const ProfileInfos = () => {
   const [user, setUser] = useState({});
-  const { logout } = useUserContext();
 
   useEffect(() => {
-    if (AuthAPI.isAuthenticated()) {
-      axios
-        .get(`${BACKEND_URL}/profile`)
-        .then((response) => {
-          setUser(response.data);
-        })
-        .catch(() => {});
-    } else {
-      logout();
-    }
+    axios
+      .get(`${BACKEND_URL}/profile`)
+      .then((response) => {
+        setUser(response.data);
+      })
+      .catch(() => {});
   }, []);
 
   if (!user.id) return null;

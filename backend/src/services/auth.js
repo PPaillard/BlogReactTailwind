@@ -30,12 +30,22 @@ const verifyPassword = (req, res) => {
       // si la comparaison est positive, l'utilisateur est validé (email + password)
       if (isVerified) {
         // on créé un token, encodé avec le mot de passe contenu dans le fichier d'environnement
-        const token = jwt.sign({ sub: req.user.id }, JWT_SECRET, {
-          algorithm: "HS512",
-          expiresIn: JWT_TIMING, // le token expirera après la durée défini dans le .env
-        });
+        const token = jwt.sign(
+          { sub: req.user.id, role: req.user.role || "USER" },
+          JWT_SECRET,
+          {
+            algorithm: "HS512",
+            expiresIn: JWT_TIMING, // le token expirera après la durée défini dans le .env
+          }
+        );
+        delete req.body.password;
         delete req.user.hashedPassword;
-        res.send({ token, user: req.user });
+        res
+          .cookie("access_token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+          })
+          .send(req.user);
       } else res.sendStatus(401);
     })
     .catch((err) => {
@@ -47,28 +57,27 @@ const verifyPassword = (req, res) => {
 
 const verifyToken = (req, res, next) => {
   try {
-    // On récupère la variable du header contenant l'authorization (le bearer token)
-    const autorizationHeader = req.headers.authorization;
-    if (!autorizationHeader)
-      throw new Error("Autorization needed for this route");
+    const token = req.cookies.access_token;
+    console.error(token);
+    if (!token) return res.sendStatus(403);
 
-    const [type, token] = autorizationHeader.split(" ");
-    // Si le type du token n'est pas Bearer => error
-    if (type !== "Bearer") throw new Error("Only Bearer token allowed");
-    // Si pas de token detecté => Error
-    if (!token) throw new Error("Token needed");
     // on place le contenu du token (payloads dans la propriété payloads de la requête)
     // afin de pouvoir retrouver les infos de l'utilisateurs connecté dans la prochaine fonction.
     req.payloads = jwt.verify(token, JWT_SECRET);
-    next();
+    return next();
   } catch (err) {
     console.error(err);
-    res.sendStatus(401);
+    return res.sendStatus(403);
   }
+};
+
+const logout = (req, res) => {
+  res.clearCookie("access_token").sendStatus(200);
 };
 
 module.exports = {
   hashPassword,
   verifyPassword,
   verifyToken,
+  logout,
 };
