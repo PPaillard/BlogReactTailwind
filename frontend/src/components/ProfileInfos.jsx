@@ -1,14 +1,11 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+import APIService from "../services/APIService";
 
 const ProfileInfos = () => {
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    axios
-      .get(`${BACKEND_URL}/profile`, { withCredentials: true })
+    APIService.get(`/profile`)
       .then((response) => {
         setUser(response.data);
       })

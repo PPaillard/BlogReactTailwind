@@ -1,13 +1,11 @@
-import axios from "axios";
-
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+import APIService from "./APIService";
 
 const getPosts = () => {
-  return axios.get(`${BACKEND_URL}/articles`);
+  return APIService.get(`/articles`);
 };
 
 const getPostById = (id) => {
-  return axios.get(`${BACKEND_URL}/articles/${id}`);
+  return APIService.get(`/articles/${id}`);
 };
 
 export default {

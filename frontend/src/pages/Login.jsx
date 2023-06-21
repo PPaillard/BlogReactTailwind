@@ -1,9 +1,7 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../contexts/userContext";
-
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+import APIService from "../services/APIService";
 
 const Login = () => {
   const { login } = useUserContext();
@@ -22,8 +20,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm) {
-      axios
-        .post(`${BACKEND_URL}/login`, userInfos, { withCredentials: true })
+      APIService.post(`/login`, userInfos)
         .then(({ data: user }) => {
           login(user);
           navigate("/");

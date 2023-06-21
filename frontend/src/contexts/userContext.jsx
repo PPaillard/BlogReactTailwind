@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import APIService from "../services/APIService";
 
 const UserContext = createContext();
 
@@ -8,7 +9,9 @@ export default UserContext;
 
 export function UserContextProvider({ children }) {
   // on utilise un hook personnalisé
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user") || "{}")
+  );
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,8 +20,9 @@ export function UserContextProvider({ children }) {
 
   const logout = async () => {
     try {
-      // await axios.get(`${BACKEND_URL}/api/logout`);
+      await APIService.get(`/logout`);
       setUser({});
+      localStorage.removeItem("user");
     } catch (error) {
       console.error(error);
     }
@@ -26,6 +30,7 @@ export function UserContextProvider({ children }) {
 
   const login = (_user) => {
     setUser(_user);
+    localStorage.setItem("user", JSON.stringify(_user));
   };
 
   const memo = useMemo(() => {
